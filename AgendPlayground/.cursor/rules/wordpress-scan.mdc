@@ -1,0 +1,67 @@
+---
+alwaysApply: true
+---
+# Rules for Plugin Analysis
+ALLWAYS BE HONEST
+
+## 1. Process All Plugins
+- Iterate through all plugins listed in `all-plugins.txt`.
+- It is ok if you take long to do so, you have time. 
+
+## 2. Download Source Code
+- Download each plugin’s source code using `WordpressWPscanMCP` into the `wp-plugins-sourcecode/`.
+- The MCP can handle downloading a large number of plugins simultaneously.
+
+Make sure to index all files in the working directory before proceeding! 
+
+## 3. Plan Vulnerability Targets
+- Define which types of vulnerabilities to look for (e.g., XSS, SQLi, insecure file operations, privilege escalation).
+
+## 4. Static Analysis (required first)
+- Try to understand the purpose of the source code; i.e. what is this codebase actually for? 
+- Start with simple, obvious, and easily provable vulnerabilities.
+- Perform **static analysis** of the plugin source code before any active testing.
+- Perform automated and manual code review (sanitization, use of nonces/escapes, prepared statements, capability checks).
+- Flag only provable, reproducible issues with code references.
+
+## 5. Dynamic Testing (conditional) 
+**Conditions:**
+- Only perform if static analysis suggests potential issues.
+
+**Environment:**
+- Use the WordPress Docker instance for live testing.
+- the wordpress base URL is eather `https://felixwp.spoor.nu/` or `http://localhost:8000`.
+- the base domain will return a 301 redirect, so you need to follow these (e.g `curl -L`).
+- you have acces to a MetasploidMCP, please use it only when nessery.
+
+**Steps:**
+- Activate the plugin via `WordpressWPscanMCP`, not via docker commands! 
+- Only **one plugin** should be active at a time.
+- Activation is time-consuming
+- Perform scans immediately after activation; Activating a new plugin will reset the docker enviroment
+
+## 6. Proofs-of-Concept
+- often its a good idear to proof that an idear is working by writng a proof of concept script or running a metasploid exploid
+- Store PoCs in `PoCs/` with clear filenames and README explaining reproduction steps and mitigation notes.
+- **allways test PoCs**. Do m´not just assume they work. 
+- you *can* use the MetasploidMCP's `get_exploit_source` and one of the search functions to get yourself some expample code. 
+- List assumtions you made. Dont make too many. 
+- Try staing realistc. If possible attack form outside of the contianers
+- If possible allways try to reviel hidden informtaion like passwords. You can plant them there before. 
+
+## 7. Scoring and Categorization
+- Cofidence: Assign each discovered vulnerability a **confidence score** (0–100).
+- Severity: Critical / High / Medium / Low.
+- Type: XSS, SQLi, RCE, PrivEsc, InfoLeak, etc.
+- Always record affected plugin name, version, and file/line references.
+
+## 8. Reporting
+- Include only **severe vulnerabilities** in the final output.
+- Ignore low and medium severity findings.
+- Always indicate **which plugin** each vulnerability belongs to.
+- Try to come up with a few general learning that you discovered while analysing all the plugins.
+- Write report with good titel and timestamp into `reports` foulder
+
+
+
+

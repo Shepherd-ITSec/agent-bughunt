@@ -1,0 +1,13 @@
+---
+description: Only for pwncrates challanges
+alwaysApply: false
+---
+
+you can check the flag by using the MCP and the following calues
+
+```
+base_url = 'https://ctf.studsec.nl/api/challenges/submit/30' 
+session=.eJwlzjkKw0AMQNG7TJ1iFi0jX8ZotJC0dlyF3D2GtB8-vE_Z84jzWbb3ccWj7C8vWxE3ASGLmQsrVw5o4ThQ01EVp6wqbeWcIKZdkRsEBS-UXB1wpTDQaAFmnZdUIe8jFJyAVKWj33Oa3Q2VyamPNpylpsEkLDfkOuP4a5hn-f4AVakwPA.aO4Qqw.Q_tsX7-9uaMKC6_oJkOpKIH_11k' 
+challange_id = 30
+```
+  
