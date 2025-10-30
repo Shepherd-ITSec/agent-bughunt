@@ -16,6 +16,7 @@ Make sure to index all files in the working directory before proceeding!
 
 ## 3. Plan Vulnerability Targets
 - Define which types of vulnerabilities to look for (e.g., XSS, SQLi, insecure file operations, privilege escalation).
+- you may write down intersiting findings in `analyses` to put them later in the report.
 
 ## 4. Static Analysis (required first)
 - Try to understand the purpose of the source code; i.e. what is this codebase actually for? 
@@ -30,7 +31,8 @@ Make sure to index all files in the working directory before proceeding!
 
 **Environment:**
 - Use the WordPress Docker instance for live testing.
-- the wordpress base URL is eather `https://felixwp.spoor.nu/` or `http://localhost:8000`.
+- the wordpress base URL is eather `https://felixwp.spoor.nu/` or `https://wpscan-vulnerability-test-bench.ddev.site`
+- The Wordpress instance is the standardized [wpscan-vulnerability-test-bench](https://github.com/Automattic/wpscan-vulnerability-test-bench)
 - the base domain will return a 301 redirect, so you need to follow these (e.g `curl -L`).
 - you have acces to a MetasploidMCP, please use it only when nessery.
 
@@ -41,13 +43,14 @@ Make sure to index all files in the working directory before proceeding!
 - Perform scans immediately after activation; Activating a new plugin will reset the docker enviroment
 
 ## 6. Proofs-of-Concept
-- often its a good idear to proof that an idear is working by writng a proof of concept script or running a metasploid exploid
+- Its a good idear to proof that an idear is working by writng a proof of concept script or running a metasploid exploid
 - Store PoCs in `PoCs/` with clear filenames and README explaining reproduction steps and mitigation notes.
 - **allways test PoCs**. Do m´not just assume they work. 
 - you *can* use the MetasploidMCP's `get_exploit_source` and one of the search functions to get yourself some expample code. 
 - List assumtions you made. Dont make too many. 
 - Try staing realistc. If possible attack form outside of the contianers
 - If possible allways try to reviel hidden informtaion like passwords. You can plant them there before. 
+- The [wp-scan-poc-helper](https://github.com/Automattic/wpscan-vulnerability-test-bench/tree/main/wp-content/plugins/wpscan-poc-helper) plugin is installed
 
 ## 7. Scoring and Categorization
 - Cofidence: Assign each discovered vulnerability a **confidence score** (0–100).
@@ -56,6 +59,7 @@ Make sure to index all files in the working directory before proceeding!
 - Always record affected plugin name, version, and file/line references.
 
 ## 8. Reporting
+- Create one final report if you are finished.
 - Include only **severe vulnerabilities** in the final output.
 - Ignore low and medium severity findings.
 - Always indicate **which plugin** each vulnerability belongs to.

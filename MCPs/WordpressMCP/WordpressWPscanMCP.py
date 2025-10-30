@@ -18,8 +18,8 @@ import re
 from urllib.parse import urljoin
 
 
-# Base directory of the WPScan vulnerability test bench checkout (default: /home/user/docker-wordpress/wpscan-vulnerability-test-bench)
-WPSCANTB_DIR = os.getenv("WPSCANTB_DIR", "/home/user/docker-wordpress/wpscan-vulnerability-test-bench")
+# Base directory of the WPScan vulnerability test bench checkout (default: /home/user/agend-bughunt/wpscan-vulnerability-test-bench)
+WPSCANTB_DIR = os.getenv("WPSCANTB_DIR", "/home/user/agend-bughunt/wpscan-vulnerability-test-bench")
 
 # DDEV app name (optional). When set, we pass --app to ddev for robustness
 DDEV_APP = os.getenv("DDEV_APP", None)
@@ -27,6 +27,10 @@ DDEV_APP = os.getenv("DDEV_APP", None)
 # How long to wait between lifecycle steps (in seconds)
 SLEEP_SHORT = float(os.getenv("WPSCANTB_SLEEP_SHORT", "2"))
 SLEEP_LONG = float(os.getenv("WPSCANTB_SLEEP_LONG", "5"))
+
+# Whether to network-activate plugins on multisite (requires super admin).
+# Defaults to False, meaning activate only on the main site so Site Admin works.
+NETWORK_ACTIVATE = os.getenv("WPSCANTB_NETWORK_ACTIVATE", "false").strip().lower() in {"1", "true", "yes", "on"}
 
 # WPSCAN submission URL
 SUBMIT_BASE_URL = os.getenv("WPSCAN_SUBMIT_BASE_URL", "https://wpscan.com")
@@ -82,6 +86,7 @@ def _ddev_cmd(args: List[str]) -> subprocess.CompletedProcess:
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         text=True,
+        env={**os.environ, "DDEV_NONINTERACTIVE": "true"},
     )
     return proc
 
@@ -119,13 +124,16 @@ def _wait_for_wp_readiness(timeout_seconds: int = 60) -> Dict[str, object]:
 
 @mcp.tool()
 def activate_plugins(slugs: List[str] | str) -> Dict[str, object]:
-    """Reset the WPScan test bench (ddev delete --omit-snapshot), start it, and install+network-activate plugins.
+    """Reset the WPScan test bench by restoring a snapshot, then install + activate plugins.
 
+    - On first run, it creates a 'pristine' snapshot of the clean environment.
+    - Subsequent runs restore the 'pristine' snapshot for a fast and complete reset.
     - Accepts a single slug or a list of slugs
-    - Uses `ddev wp plugin install <slug> --activate-network`
-    - Always recreates a fresh site with `ddev delete --omit-snapshot` before activation
+    - By default activates per-site on the main site (Site Admin compatible)
+    - Set env var `WPSCANTB_NETWORK_ACTIVATE=true` to network-activate instead of single-site
     """
     logger.info("activate request: %s", slugs)
+    logger.info("activation mode: %s", "network" if NETWORK_ACTIVATE else "single-site")
     # Normalize input
     plugin_slugs: List[str] = [slugs] if isinstance(slugs, str) else list(slugs)
 
@@ -139,14 +147,34 @@ def activate_plugins(slugs: List[str] | str) -> Dict[str, object]:
             "dir": WPSCANTB_DIR,
         }
 
-    # 1) Delete existing environment (fresh each time)
-    proc_del = _ddev_cmd(["delete", "--omit-snapshot", "-y"])  # non-interactive
-    steps.append(_require_success(proc_del, "ddev_delete"))
+    # 1) Try to restore the 'pristine' snapshot for a fast reset.
+    proc_restore = _ddev_cmd(["snapshot", "restore", "pristine"])
+    steps.append(_require_success(proc_restore, "ddev_restore_snapshot"))
 
-    # 2) Start the environment
-    time.sleep(SLEEP_SHORT)
+    if proc_restore.returncode != 0:
+        logger.warning("Failed to restore 'pristine' snapshot. Assuming first run and creating it.")
+        
+        # Reset the git repo to a pristine state before creating the snapshot
+        proc_git_reset = subprocess.run(["git", "reset", "--hard", "HEAD"], cwd=WPSCANTB_DIR, text=True, capture_output=True)
+        steps.append(_require_success(proc_git_reset, "git_reset"))
+        proc_git_clean = subprocess.run(["git", "clean", "-fdx"], cwd=WPSCANTB_DIR, text=True, capture_output=True)
+        steps.append(_require_success(proc_git_clean, "git_clean"))
+
+        proc_start_initial = _ddev_cmd(["start"])
+        steps.append(_require_success(proc_start_initial, "ddev_start_initial"))
+        if proc_start_initial.returncode != 0:
+            return {"status": "error", "message": "Failed to start ddev for initial snapshot", "steps": steps}
+
+        proc_snapshot = _ddev_cmd(["snapshot", "--name", "pristine"])
+        steps.append(_require_success(proc_snapshot, "ddev_snapshot_pristine"))
+        if proc_snapshot.returncode != 0:
+            return {"status": "error", "message": "Failed to create 'pristine' snapshot", "steps": steps}
+
+    # 2) Ensure the environment is running after snapshot restore
     proc_start = _ddev_cmd(["start"]) 
-    steps.append(_require_success(proc_start, "ddev_start"))
+    steps.append(_require_success(proc_start, "ddev_start_after_restore"))
+    if proc_start.returncode != 0:
+        return {"status": "error", "message": "Failed to start ddev after snapshot restore", "steps": steps}
 
     # 3) Wait a bit and then poll readiness
     time.sleep(SLEEP_LONG)
@@ -162,9 +190,15 @@ def activate_plugins(slugs: List[str] | str) -> Dict[str, object]:
     installed: List[Dict[str, object]] = []
     failed: List[Dict[str, object]] = []
 
-    # 4) Install + activate each plugin across the network
+    # 4) Install + activate each plugin (network or single-site based on env switch)
     for slug in plugin_slugs:
-        proc_inst = _wp_cli(["plugin", "install", slug, "--activate-network", "--allow-root"]) 
+        wp_args = ["plugin", "install", "--force", slug]
+        if NETWORK_ACTIVATE:
+            wp_args.append("--activate-network")
+        else:
+            wp_args.append("--activate")
+        wp_args.append("--allow-root")
+        proc_inst = _wp_cli(wp_args)
         result = _require_success(proc_inst, f"install_activate:{slug}")
         if proc_inst.returncode == 0:
             installed.append({"slug": slug, "result": result})
@@ -179,13 +213,14 @@ def activate_plugins(slugs: List[str] | str) -> Dict[str, object]:
         "readiness": readiness,
         "installed": installed,
         "failed": failed,
+        "activation_mode": "network" if NETWORK_ACTIVATE else "single-site",
     }
 
 
 @mcp.tool()
 async def plugins_download_sources(
     slugs: List[str],
-    dest_dir: str = "/home/user/docker-wordpress/AgendPlayground/wp-plugins-sourcecode",
+    dest_dir: str = "/home/user/agend-bughunt/AgendPlayground/wp-plugins-sourcecode",
     concurrency: int = 16,
     skip_existing: bool = True,
     remove_zip: bool = True,
@@ -408,7 +443,7 @@ async def plugins_download_sources(
 
 
 @mcp.tool()
-def plugins_delete_sources(slugs: List[str], dest_dir: str = "/home/user/docker-wordpress/wp-plugins-sorcecode") -> Dict[str, object]:
+def plugins_delete_sources(slugs: List[str], dest_dir: str = "/home/user/agend-bughunt/wp-plugins-sorcecode") -> Dict[str, object]:
     """Delete extracted plugin source directories for the given slugs from dest_dir.
 
     - slugs: list of plugin slugs
