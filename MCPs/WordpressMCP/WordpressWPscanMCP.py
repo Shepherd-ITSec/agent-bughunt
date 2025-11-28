@@ -18,8 +18,8 @@ import re
 from urllib.parse import urljoin
 
 
-# Base directory of the WPScan vulnerability test bench checkout (default: /home/user/agend-bughunt/wpscan-vulnerability-test-bench)
-WPSCANTB_DIR = os.getenv("WPSCANTB_DIR", "/home/user/agend-bughunt/wpscan-vulnerability-test-bench")
+# Base directory of the WPScan vulnerability test bench checkout
+WPSCANTB_DIR = os.getenv("WPSCANTB_DIR", "WP-Agend-Playground")
 
 # DDEV app name (optional). When set, we pass --app to ddev for robustness
 DDEV_APP = os.getenv("DDEV_APP", None)

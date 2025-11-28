@@ -1,4 +1,10 @@
+# Ignore all files in *-Playground directories
 *-Playground/*
+
+# Except the rules and mcp configurations
 !*-Playground/.cursor/
 !*-Playground/.vscode/
 !*-Playground/.github/
+
+# Except plugin input file files
+!WP-Agend-Playground/all-plugins.txt

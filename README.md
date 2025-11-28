@@ -12,13 +12,6 @@ This repository bundles everything needed for the Agend bughunting workshop: rep
   - `MetasploitMCP` bridges Cursor to Metasploit RPC (list exploits, run modules, manage sessions, generate payloads).
   - `WordpressMCP` automates plugin downloads, activation, scanning, and reporting inside a standardized WordPress bench.
 
-> **Why the `.gitignore` matters**  
-> The root `.gitignore` excludes every `*-Playground/` directory except their nested `rules/` folders:
-> ```
-> *-Playground/
-> !*-Playground/**/rules/
-> ```
-> This keeps bulky challenge artifacts out of version control while still allowing you to distribute any governing rules or instructions. Feel free to drop local challenge files inside the playground folders—the repo will treat them as scratch space.
 
 ## Getting Started
 
@@ -29,11 +22,22 @@ This repository bundles everything needed for the Agend bughunting workshop: rep
    ```
 2. **Python toolchain**  
    - Install [uv](https://docs.astral.sh/uv/getting-started/installation/) (recommended) or ensure Python ≥3.10 is available.  
-   - For a specific MCP, run `uv sync` (or `pip install -r requirements.txt`) inside that MCP’s folder.
+   - For a specific MCP, run `uv sync` (or `pip install -r requirements.txt`) inside that MCP’s folder to make it aviable.
 3. **Metasploit (optional)**  
-   - Required if you plan to demonstrate `MetasploitMCP`. Start `msfrpcd` before launching the MCP so Cursor can attach.
+   - If you like to use the `MetasploitMCP`, install methasploid and start the API server with `msfrpcd -P pass123 -a 127.0.0.1 -p 55553 -S`.
+4. **Wordpress (optional)**
+   - If you would like to test wordpress plugins you need to setup a wordpress enviroment
+   - Install [docker](https://docs.ddev.com/en/stable/users/install/docker-installation/)
+   - Install [ddev](https://docs.ddev.com/en/stable/users/install/ddev-installation/)
+   - Clone the [WPScan Vulnerability Testbench](https://github.com/Automattic/wpscan-vulnerability-test-bench): 
+   ```bash 
+    git clone git@github.com:Automattic/wpscan-vulnerability-test-bench.git
+    cd wpscan-vulnerability-test-bench
+    export WPSCANTB_DIR=$(pwd)
+    ddev start
+   ``` 
 
-## Installing Cursor (needed for MCP tooling)
+## Installing Cursor 
 
 1. Visit [https://cursor.sh/download](https://cursor.sh/download) and pick your platform.
 2. **Linux (AppImage example)**  
@@ -43,16 +47,8 @@ This repository bundles everything needed for the Agend bughunting workshop: rep
    ./Cursor.AppImage
    ```
    Windows and macOS users can run the signed installer from the downloads page.
-3. Sign in (GitHub, Google, or email) and let Cursor index this repository.
-4. Open `Settings → MCP Servers` in Cursor and register any of the servers from the `MCPs/` directory. Example command for Metasploit:
-   ```json
-   {
-     "command": "uv",
-     "args": ["--directory", "/path/to/agend-bughunt/MCPs/MetasploitMCP", "run", "MetasploitMCP.py", "--transport", "stdio"],
-     "env": { "MSF_PASSWORD": "supersecret" }
-   }
-   ```
-5. Start chatting with Cursor and invoke the new tools (e.g., `metasploit.list_exploits`, `wordpress.scan_plugin`, `checkflag.verify`).
+3. Open `Settings → MCP Servers` in Cursor to make sure the MCPs from the `MCPs/` directory are detected correctly.
+4. Start chatting with Cursor.
 
 ## Suggested Workshop Flow
 
@@ -62,12 +58,6 @@ This repository bundles everything needed for the Agend bughunting workshop: rep
 - **Independent exploration** — Participants pick either CTF or WordPress tracks, capture findings, and (optionally) submit through `CheckFlagMCP`.
 - **Wrap-up** — Collect reports/flags from `rules/` folders so nothing sensitive ends up in git history.
 
-## Tips for Facilitators
-
-- Keep heavy VM images, pcap files, and wordlists inside the playground folders; git will happily ignore them.
-- Encourage responsible disclosure: every WordPress analysis directory already includes guidance on reporting and severity triage.
-- Mix and match MCP servers—Cursor can call them concurrently, which makes demonstrations smoother than juggling CLI windows.
-- Document new rules or scoring guidance inside `rules/` subdirectories so they *are* tracked.
 
 ## License & Responsible Use
 
