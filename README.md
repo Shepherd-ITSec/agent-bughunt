@@ -5,10 +5,10 @@ This repository bundles everything needed for the Agend bughunting workshop: rep
 ## Repository Layout
 
 - `CTF-Agend-Playground/` — self-contained capture-the-flag style exercises (race-condition lab, survey challenge, forensics artifacts, helper scripts, etc.). Use these for fast-paced demos or individual drills.
-- `WP-Agend-Playground/` — WordPress assessment workspace with analyses, PoCs, and formal reports. The included `README.md` explains the required naming conventions and methodology so attendees can follow the same structure.
-- `MCPs/` — standalone MCP servers that plug into Cursor. Each folder is an installable Python package (managed with `uv`) that exposes a specialized tool:
-  - `CheckFlagMCP` verifies submitted flags over HTTP.
-  - `IShellMCP` provides interactive shell access with guardrails.
+- `WP-Agend-Playground/` — WordPress assessment workspace with analyses, PoCs, and formal reports. 
+- `MCPs/` — standalone MCP servers. Each folder is an installable Python package (managed with `uv`) that exposes a specialized tool:
+  - `CheckFlagMCP` verifies submitted flags over HTTP if given session cookie.
+  - `IShellMCP` provides incremental shell access for remote explotation.
   - `MetasploitMCP` bridges Cursor to Metasploit RPC (list exploits, run modules, manage sessions, generate payloads).
   - `WordpressMCP` automates plugin downloads, activation, scanning, and reporting inside a standardized WordPress bench.
 
@@ -17,7 +17,7 @@ This repository bundles everything needed for the Agend bughunting workshop: rep
 
 1. **Clone**
    ```bash
-   git clone https://github.com/<org>/agend-bughunt.git
+   git clone https://github.com/Shepherd-ITSec/agend-bughunt.git
    cd agend-bughunt
    ```
 2. **Python toolchain**  
@@ -36,29 +36,23 @@ This repository bundles everything needed for the Agend bughunting workshop: rep
     export WPSCANTB_DIR=$(pwd)
     ddev start
    ``` 
-
-## Installing Cursor 
-
-1. Visit [https://cursor.sh/download](https://cursor.sh/download) and pick your platform.
-2. **Linux (AppImage example)**  
+5. **Cusor**
+   - Visit [https://cursor.sh/download](https://cursor.sh/download) and pick your platform.
+   - Linux ``AppImage`` example:
    ```bash
    wget https://downloader.cursor.sh/linux/appImage -O Cursor.AppImage
    chmod +x Cursor.AppImage
    ./Cursor.AppImage
    ```
    Windows and macOS users can run the signed installer from the downloads page.
-3. Open `Settings → MCP Servers` in Cursor to make sure the MCPs from the `MCPs/` directory are detected correctly.
-4. Start chatting with Cursor.
+   - Open `Settings → MCP Servers` in Cursor to make sure the MCPs from the `MCPs/` directory are detected correctly.
 
-## Suggested Workshop Flow
+## Usage
+- Start the agent envroment (Cursor, Copilot) and open a Playground folder.
+- Start chatting
 
-- **Kickoff (10 min)** — Walk through this README, show the playgrounds, and explain the `.gitignore`-backed scratch areas attendees can personalize.
-- **Environment prep (15 min)** — Attendees install Cursor, register at least one MCP, and skim the `WP-Agend-Playground/README.md` methodology.
-- **Guided lab (30–45 min)** — Pair Cursor with `MetasploitMCP` or `WordpressMCP` to demonstrate automated recon, exploitation, and reporting.
-- **Independent exploration** — Participants pick either CTF or WordPress tracks, capture findings, and (optionally) submit through `CheckFlagMCP`.
-- **Wrap-up** — Collect reports/flags from `rules/` folders so nothing sensitive ends up in git history.
 
 
 ## License & Responsible Use
 
-This repository is for educational, authorized security testing. Only run the included tooling in lab environments or against systems where you have explicit permission. When in doubt, err on the side of caution and keep sensitive evidence within the ignored playground directories.
+This repository is for educational, authorized security testing. Only run the included tooling in lab environments or against systems where you have explicit permission. When in doubt, err on the side of caution and keep sensitive evidence within the playground directories.
