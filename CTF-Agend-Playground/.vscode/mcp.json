@@ -1,0 +1,40 @@
+{
+    "servers": {
+      "i-shell-mcp": {
+        "command": "uv",
+        "args": [
+          "--directory",
+          "/home/user/agend-bughunt/MCPs/IShellMCP",
+          "run",
+          "IShellMCP.py"
+        ]
+      },
+      "check-flag-mcp": {
+        "command": "uv",
+        "args": [
+          "--directory",
+          "/home/user/agend-bughunt/MCPs/CheckFlagMCP",
+          "run",
+          "CheckFlagMCP.py"
+        ]
+      },
+      "metasploit-mcp": {
+        "command": "uv",
+        "args": [
+          "--directory",
+          "/home/user/agend-bughunt/MCPs/MetasploitMCP",
+          "run",
+          "MetasploitMCP.py",
+          "--transport",
+          "stdio"
+        ],
+        "env": {
+          "MSF_PASSWORD": "pass123",
+          "MSF_SERVER": "127.0.0.1",
+          "MSF_PORT": "55553",
+          "MSF_SSL": "false",
+          "PAYLOAD_SAVE_DIR": "/home/user/agend-bughunt/MCPs/MetasploitMCP/payloads"
+        }
+      }
+    }
+  }

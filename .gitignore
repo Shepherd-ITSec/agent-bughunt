@@ -1,3 +1,4 @@
-*-Playground/
-
-!*-Playground/**/rules/
+*-Playground/*
+!*-Playground/.cursor/
+!*-Playground/.vscode/
+!*-Playground/.github/

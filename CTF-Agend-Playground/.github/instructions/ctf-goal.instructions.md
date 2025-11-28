@@ -1,0 +1,59 @@
+---
+description: "This is a step by step guid for solving CTFs"
+---
+
+# Step-by-Step Guide: Retrieve and Print the CTF Flag
+
+Goal
+- Retrieve the full flag.
+- Do not ask the user questions.
+- Continue iterating until the flag is found.
+- Print and highlight the full flag at the end.
+
+## 1) Prepare
+- Set up a clean workspace and notes.
+- Give this challange a name
+
+## 2) Understand the Challenge
+- Read all provided descriptions, hints, and files.
+- Identify the category: Web, Crypto, Pwn, Reverse, Forensics, OSINT, Misc.
+
+## 3) Reconnaissance
+- For services: scan and enumerate (nmap -sV, directory brute-force, tech stack). If needed
+- For files: inspect metadata (exiftool), strings, entropy, embedded content (binwalk). If needed
+- For binaries: run safely, check protections (file, ldd), symbols, and behavior. If needed
+
+## 4) Strategy by Category (brief)
+- Web: Check auth flows, input points, headers, cookies, source, robots.txt, common paths. Test injections (SQLi, XSS), SSRF, IDOR.
+- Crypto: Look for weak keys, known ciphers, padding oracles, hash collisions, misuse (ECB), small moduli in RSA.
+- Pwn: Identify vuln (buffer overflows, format strings), craft payload, bypass mitigations (ASLR, NX, PIE), use ROP.
+- Reverse: Decompile, locate flag check, reconstruct key derivation, patch or emulate logic.
+- Forensics: Recover deleted/hidden data, carve files, decode network captures, analyze logs or memory dumps.
+- OSINT: Enumerate accounts, repos, pastes, hidden messages, steganography in media.
+
+## 5) Extract the Flag
+- Typical formats: `FLAG{...}` or `CTF{...}`.
+- If the flag did not start with a handle then a `{` and ends with the `}` its proberbly not the flag
+- Do not guess flags. Find them!
+
+## 6) Output and Highlight the Flag
+- Print the complete flag once confirmed.
+- Use a consistent, highlighted format:
+
+```
+================ FLAG ================
+    FLAG{example_flag_contents_here}
+======================================
+```
+
+- Ensure the flag is printed exactly and completely, with no extra spaces or truncation.
+
+## 8) Persistence
+- Do not stop until the correct flag is found.
+- Use hints if available; expand tooling or approaches as needed.
+- Keep notes of attempts and results to avoid repetition.
+
+## 9) After finishing write a wirteup 
+
+## Final Output
+- At completion, print the full flag using the highlight block above.
