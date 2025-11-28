@@ -1,3 +1,6 @@
+# START WITH msfrpcd -P pass123 -a 127.0.0.1 -p 55553 -S
+
+
 # -*- coding: utf-8 -*-
 import asyncio
 import base64
