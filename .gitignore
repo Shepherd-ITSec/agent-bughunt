@@ -8,3 +8,6 @@
 
 # Except plugin input file files
 !WP-Agend-Playground/all-plugins.txt
+
+# Execpt gitkeep files
+!*/.gitkeep
