@@ -37,7 +37,7 @@ workshop.
     export WPSCANTB_DIR=$(pwd)
     ddev start
    ``` 
-5. **Cusor (optional)**
+5. **Cursor (optional)**
    - Visit [https://cursor.sh/download](https://cursor.sh/download) and pick your platform.
    - Linux ``AppImage`` example:
    ```bash
@@ -48,7 +48,7 @@ workshop.
    Windows and macOS users can run the signed installer from the downloads page.
    - Open `Settings → MCP Servers` in Cursor to make sure the MCPs from the `MCPs/` directory are detected correctly.
 
-5. **Copilot + SURF-Wilma (alternative)**
+5. **Copilot + SURF-Willma models (alternative)**
    - Alternativly you can uses the models provided by SURF together with github copilot
      - Info: Theese models are not as strong as the commercial once
    - Therfore [install Visual Studio Code Insiders](https://code.visualstudio.com/insiders/)
