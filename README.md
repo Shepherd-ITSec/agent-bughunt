@@ -9,7 +9,7 @@ workshop.
 - `WP-agent-Playground/` — WordPress assessment workspace with analyses, PoCs, and formal reports. 
 - `MCPs/` — standalone MCP servers. Each folder is an installable Python package (managed with `uv`) that exposes a specialized tool:
   - `CheckFlagMCP` verifies submitted flags over HTTP if given session cookie.
-  - `IShellMCP` provides incremental shell access for remote explotation.
+  - `IShellMCP` provides incremental shell access for remote exploitation.
   - `MetasploitMCP` bridges Cursor to Metasploit RPC (list exploits, run modules, manage sessions, generate payloads).
   - `WordpressMCP` automates plugin downloads, activation, scanning, and reporting inside a standardized WordPress bench.
 
@@ -23,11 +23,11 @@ workshop.
    ```
 2. **Python toolchain**  
    - Install [uv](https://docs.astral.sh/uv/getting-started/installation/) (recommended) or ensure Python ≥3.10 is available.  
-   - For a specific MCP, run `uv sync` (or `pip install -r requirements.txt`) inside that MCP’s folder to make it aviable.
+   - For a specific MCP, run `uv sync` (or `pip install -r requirements.txt`) inside that MCP’s folder to make it available.
 3. **Metasploit (optional)**  
    - If you like to use the `MetasploitMCP`, install methasploid and start the API server with `msfrpcd -P pass123 -a 127.0.0.1 -p 55553 -S`.
 4. **Wordpress (optional)**
-   - If you would like to test wordpress plugins you need to setup a wordpress enviroment
+   - If you would like to test wordpress plugins you need to setup a wordpress environment
    - Install [docker](https://docs.ddev.com/en/stable/users/install/docker-installation/)
    - Install [ddev](https://docs.ddev.com/en/stable/users/install/ddev-installation/)
    - Clone the [WPScan Vulnerability Testbench](https://github.com/Automattic/wpscan-vulnerability-test-bench): 
@@ -37,7 +37,7 @@ workshop.
     export WPSCANTB_DIR=$(pwd)
     ddev start
    ``` 
-5. **Cusor**
+5. **Cusor (optional)**
    - Visit [https://cursor.sh/download](https://cursor.sh/download) and pick your platform.
    - Linux ``AppImage`` example:
    ```bash
@@ -48,8 +48,33 @@ workshop.
    Windows and macOS users can run the signed installer from the downloads page.
    - Open `Settings → MCP Servers` in Cursor to make sure the MCPs from the `MCPs/` directory are detected correctly.
 
+5. **Copilot + SURF-Wilma (alternative)**
+   - Alternativly you can uses the models provided by SURF together with github copilot
+     - Info: Theese models are not as strong as the commercial once
+   - Therfore [install Visual Studio Code Insiders](https://code.visualstudio.com/insiders/)
+   - Click right in the copilot window on `select model` and singe-in with any account. 
+
+   - Click right in the copilot window on `Auto` and select `Manage Models`
+   - Click `+ Add Models..` and select `OpenAPI compatible`
+   - Use the following specifications in this order, followed by the API key
+   ```json
+      "openai/gpt-oss-120b": {
+         "name": "SURF-gpt-oss-120b",
+         "url": "https://willma.surf.nl/api/v0/chat/completions",
+         "toolCalling": true,
+         "vision": true,
+         "thinking": true,
+         "requiresAPIKey": true,
+         "maxInputTokens": 128000,
+         "maxOutputTokens": 4096
+      },
+
+   ```
+   - Select the model to use by clicking on `Auto` in the copilot chat and choosing it.
+   - Press the wheel symbol on top of the copilot window and click `MCP Servers` to make sure the MCPs from the `MCPs/` directory are detected correctly
+  
 ## Usage
-- Start the agent envroment (Cursor, Copilot) and open a Playground folder.
+- Start the agent environment (Cursor, Copilot) and open a Playground folder.
 - Start chatting
 
 
