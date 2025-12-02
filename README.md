@@ -70,7 +70,8 @@ workshop.
       },
 
    ```
-   - Select the model to use by clicking on `Auto` in the copilot chat and choosing it.
+   - Double click the model in the `OpenAI Compatible` tab to un-hide it
+   - Select the model to use by clicking on `Auto` in the copilot chat and choosing it
    - Press the wheel symbol on top of the copilot window and click `MCP Servers` to make sure the MCPs from the `MCPs/` directory are detected correctly
   
 ## Usage
