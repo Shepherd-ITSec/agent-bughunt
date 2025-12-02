@@ -19,7 +19,7 @@ from urllib.parse import urljoin
 
 
 # Base directory of the WPScan vulnerability test bench checkout
-WPSCANTB_DIR = os.getenv("WPSCANTB_DIR", "WP-Agend-Playground")
+WPSCANTB_DIR = os.getenv("WPSCANTB_DIR", "WP-agent-Playground")
 
 # DDEV app name (optional). When set, we pass --app to ddev for robustness
 DDEV_APP = os.getenv("DDEV_APP", None)
@@ -220,7 +220,7 @@ def activate_plugins(slugs: List[str] | str) -> Dict[str, object]:
 @mcp.tool()
 async def plugins_download_sources(
     slugs: List[str],
-    dest_dir: str = "/home/user/agend-bughunt/AgendPlayground/wp-plugins-sourcecode",
+    dest_dir: str = "/home/user/agent-bughunt/agentPlayground/wp-plugins-sourcecode",
     concurrency: int = 16,
     skip_existing: bool = True,
     remove_zip: bool = True,
@@ -443,7 +443,7 @@ async def plugins_download_sources(
 
 
 @mcp.tool()
-def plugins_delete_sources(slugs: List[str], dest_dir: str = "/home/user/agend-bughunt/wp-plugins-sorcecode") -> Dict[str, object]:
+def plugins_delete_sources(slugs: List[str], dest_dir: str = "/home/user/agent-bughunt/wp-plugins-sorcecode") -> Dict[str, object]:
     """Delete extracted plugin source directories for the given slugs from dest_dir.
 
     - slugs: list of plugin slugs

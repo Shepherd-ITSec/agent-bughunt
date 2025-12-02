@@ -4,7 +4,7 @@
       "command": "uv",
       "args": [
         "--directory",
-        "/home/user/agend-bughunt/MCPs/IShellMCP",
+        "/home/user/agent-bughunt/MCPs/IShellMCP",
         "run",
         "IShellMCP.py"
       ]
@@ -13,7 +13,7 @@
       "command": "uv",
       "args": [
         "--directory",
-        "/home/user/agend-bughunt/MCPs/CheckFlagMCP",
+        "/home/user/agent-bughunt/MCPs/CheckFlagMCP",
         "run",
         "CheckFlagMCP.py"
       ]
@@ -22,7 +22,7 @@
       "command": "uv",
       "args": [
         "--directory",
-        "/home/user/agend-bughunt/MCPs/MetasploitMCP",
+        "/home/user/agent-bughunt/MCPs/MetasploitMCP",
         "run",
         "MetasploitMCP.py",
         "--transport",
@@ -33,7 +33,7 @@
         "MSF_SERVER": "127.0.0.1",
         "MSF_PORT": "55553",
         "MSF_SSL": "false",
-        "PAYLOAD_SAVE_DIR": "/home/user/agend-bughunt/MCPs/MetasploitMCP/payloads"
+        "PAYLOAD_SAVE_DIR": "/home/user/agent-bughunt/MCPs/MetasploitMCP/payloads"
       }
     }
 

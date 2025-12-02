@@ -1,11 +1,12 @@
-# Agend Bughunt Workshop Kit
+# Hunting vulnerabilities with simple LLM agents - Workshop Kit
 
-This repository bundles everything needed for the Agend bughunting workshop: repeatable playgrounds, curated write-ups, and Model Context Protocol (MCP) helpers that let Cursor (or any MCP-aware IDE) drive security tooling hands-free. Bring it to a live session, have participants clone it, and they will land in a ready-to-explore environment that alternates between CTF-style labs, WordPress research targets, and automation scripts.
+This repository bundles everything needed for the hunting vulnerabilities with simple LLM agents
+workshop: repeatable playgrounds, and Model Context Protocol (MCP) helpers that let Cursor (or any MCP-aware IDE) drive security tooling hands-free. Bring it to a live session, have participants clone it, and they will land in a ready-to-explore environment that alternates between CTF-style labs, WordPress research targets, and automation scripts.
 
 ## Repository Layout
 
-- `CTF-Agend-Playground/` — self-contained capture-the-flag style exercises (race-condition lab, survey challenge, forensics artifacts, helper scripts, etc.). Use these for fast-paced demos or individual drills.
-- `WP-Agend-Playground/` — WordPress assessment workspace with analyses, PoCs, and formal reports. 
+- `CTF-agent-Playground/` — self-contained capture-the-flag style exercises (race-condition lab, survey challenge, forensics artifacts, helper scripts, etc.). Use these for fast-paced demos or individual drills.
+- `WP-agent-Playground/` — WordPress assessment workspace with analyses, PoCs, and formal reports. 
 - `MCPs/` — standalone MCP servers. Each folder is an installable Python package (managed with `uv`) that exposes a specialized tool:
   - `CheckFlagMCP` verifies submitted flags over HTTP if given session cookie.
   - `IShellMCP` provides incremental shell access for remote explotation.
@@ -17,8 +18,8 @@ This repository bundles everything needed for the Agend bughunting workshop: rep
 
 1. **Clone**
    ```bash
-   git clone https://github.com/Shepherd-ITSec/agend-bughunt.git
-   cd agend-bughunt
+   git clone https://github.com/Shepherd-ITSec/agent-bughunt.git
+   cd agent-bughunt
    ```
 2. **Python toolchain**  
    - Install [uv](https://docs.astral.sh/uv/getting-started/installation/) (recommended) or ensure Python ≥3.10 is available.  

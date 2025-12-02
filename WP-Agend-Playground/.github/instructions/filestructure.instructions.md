@@ -13,7 +13,7 @@ applyTo: "**"
   - `reports/` (final reports and findings)
   - `analyses/<project>_YYYY-MM-DD/` (anything that does not fall in an other catergorie)
     - Do not put files directly in the `analyses/` always use subfoulder as indicated.
-- Never put anything in the root `AgendPlayground/` `/`
+- Never put anything in the root `agentPlayground/` `/`
 - Suggested filename patterns:
   - Report: `reports/<project>_plugin-analysis_YYYY-MM-DD_HH:MM.md` (final summery document)
   - PoC: `PoCs/<project>_YYYY-MM-DD/<plugin-slug>__<vuln-type>__HH:MM.py|rb|sh` (code)
