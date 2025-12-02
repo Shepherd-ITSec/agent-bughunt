@@ -1,7 +1,7 @@
 # Hunting vulnerabilities with simple LLM agents - Workshop Kit
 
-This repository bundles everything needed for the hunting vulnerabilities with simple LLM agents
-workshop: repeatable playgrounds, and Model Context Protocol (MCP) helpers that let Cursor (or any MCP-aware IDE) drive security tooling hands-free. Bring it to a live session, have participants clone it, and they will land in a ready-to-explore environment that alternates between CTF-style labs, WordPress research targets, and automation scripts.
+This repository bundles everything we need for the hunting vulnerabilities with simple LLM agents
+workshop. 
 
 ## Repository Layout
 
