@@ -52,9 +52,9 @@ workshop.
    - Alternativly you can uses the models provided by SURF together with github copilot
      - Info: Theese models are not as strong as the commercial once
    - Therfore [install Visual Studio Code Insiders](https://code.visualstudio.com/insiders/)
-   - Click right in the copilot window on `select model` and singe-in with any account. 
+   - Click on the right in the copilot window on `select model` and singe-in with any account. 
 
-   - Click right in the copilot window on `Auto` and select `Manage Models`
+   - Click  on the right in the copilot window on `Auto` and select `Manage Models`
    - Click `+ Add Models..` and select `OpenAPI compatible`
    - Use the following specifications in this order, followed by the API key
    ```json
@@ -75,8 +75,9 @@ workshop.
    - Press the wheel symbol on top of the copilot window and click `MCP Servers` to make sure the MCPs from the `MCPs/` directory are detected correctly
   
 ## Usage
-- Start the agent environment (Cursor, Copilot) and open a Playground folder.
+- Start the agent environment (Cursor, Copilot) and open the fitting Playground folder of this repo.
 - Start chatting
+  - You may for example copy the text of a simple CTF task into the chat window and tell the agent to solve it.
 
 
 
