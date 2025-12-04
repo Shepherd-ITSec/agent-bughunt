@@ -56,7 +56,14 @@ workshop.
 
    - Click  on the right in the copilot window on `Auto` and select `Manage Models`
    - Click `+ Add Models..` and select `OpenAPI compatible`
-   - Use the following specifications in this order, followed by the API key
+   - Use the following specifications in this order:
+     - name: `openai/gpt-oss-120b`
+     - display name: `SURF-gpt-oss-120b`
+     - url endpoint: `https://willma.surf.nl/api/v0/chat/completions`
+     - click everything (``toolCalling``, ``vision``, ``requiresAPIKey``)
+     - max Input Tokens: `128000` (already default)
+     - max Output Tokens: `4096` (already default)
+   - Alternatively you can use JSON description
    ```json
       "openai/gpt-oss-120b": {
          "name": "SURF-gpt-oss-120b",
@@ -75,7 +82,8 @@ workshop.
    - Press the wheel symbol on top of the copilot window and click `MCP Servers` to make sure the MCPs from the `MCPs/` directory are detected correctly
   
 ## Usage
-- Start the agent environment (Cursor, Copilot) and open the fitting Playground folder of this repo.
+- Start the agent environment (Cursor, Copilot)
+- Click on `File`, `Open folder` or press `Ctrl + K, Ctrl + O` and open the fitting Playground folder of this repo.
 - Start chatting
   - You may for example copy the text of a simple CTF task into the chat window and tell the agent to solve it.
 
